@@ -122,6 +122,518 @@ nb_path: "nbs/01_Sumstat.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Sumstat-2-vcf">Sumstat 2 vcf<a class="anchor-link" href="#Sumstat-2-vcf"> </a></h2><p>Following function take a sumstat pandas.df object that were processed and with correct headers ('CHR', 'POS', 'SNP', 'A0', 'A1',"STAT","SE","P"). and then change it into a vcf file with 1 samples. When the sumstat have gene name in it, the gene name will be saved to the info field.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="ss_2_vcf" class="doc_header"><code>ss_2_vcf</code><a href="https://github.com/changebio/cugg/tree/master/cugg/sumstat.py#L77" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ss_2_vcf</code>(<strong><code>ss_df</code></strong>, <strong><code>name</code></strong>=<em><code>'name'</code></em>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Example-input-and-output-for-ss_2_vcf()">Example input and output for ss_2_vcf()<a class="anchor-link" href="#Example-input-and-output-for-ss_2_vcf()"> </a></h2>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GENE</th>
+      <th>SNP</th>
+      <th>TSS_D</th>
+      <th>AF</th>
+      <th>MA_S</th>
+      <th>MA_F</th>
+      <th>P</th>
+      <th>STAT</th>
+      <th>SE</th>
+      <th>A1</th>
+      <th>A0</th>
+      <th>POS</th>
+      <th>CHR</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>DOC2B</td>
+      <td>chr17:150509_TA_T</td>
+      <td>-31141</td>
+      <td>0.185990</td>
+      <td>135</td>
+      <td>154</td>
+      <td>2.767300e-09</td>
+      <td>-0.353553</td>
+      <td>0.057822</td>
+      <td>T</td>
+      <td>TA</td>
+      <td>150509</td>
+      <td>chr17</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>DOC2B</td>
+      <td>chr17:151035_C_T</td>
+      <td>-30615</td>
+      <td>0.185990</td>
+      <td>136</td>
+      <td>154</td>
+      <td>2.005370e-09</td>
+      <td>-0.360252</td>
+      <td>0.058372</td>
+      <td>T</td>
+      <td>C</td>
+      <td>151035</td>
+      <td>chr17</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>DOC2B</td>
+      <td>chr17:151041_A_G</td>
+      <td>-30609</td>
+      <td>0.140097</td>
+      <td>102</td>
+      <td>116</td>
+      <td>8.754326e-03</td>
+      <td>-0.175506</td>
+      <td>0.066545</td>
+      <td>G</td>
+      <td>A</td>
+      <td>151041</td>
+      <td>chr17</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>DOC2B</td>
+      <td>chr17:151596_G_A</td>
+      <td>-30054</td>
+      <td>0.096618</td>
+      <td>77</td>
+      <td>80</td>
+      <td>2.739677e-01</td>
+      <td>-0.088473</td>
+      <td>0.080737</td>
+      <td>A</td>
+      <td>G</td>
+      <td>151596</td>
+      <td>chr17</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>DOC2B</td>
+      <td>chr17:151872_T_C</td>
+      <td>-29778</td>
+      <td>0.115942</td>
+      <td>92</td>
+      <td>96</td>
+      <td>9.243513e-02</td>
+      <td>0.132022</td>
+      <td>0.078229</td>
+      <td>C</td>
+      <td>T</td>
+      <td>151872</td>
+      <td>chr17</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>995</th>
+      <td>DOC2B</td>
+      <td>chr17:281918_A_G</td>
+      <td>100268</td>
+      <td>0.335749</td>
+      <td>234</td>
+      <td>278</td>
+      <td>3.852610e-02</td>
+      <td>0.107802</td>
+      <td>0.051887</td>
+      <td>G</td>
+      <td>A</td>
+      <td>281918</td>
+      <td>chr17</td>
+    </tr>
+    <tr>
+      <th>996</th>
+      <td>DOC2B</td>
+      <td>chr17:281965_T_G</td>
+      <td>100315</td>
+      <td>0.289855</td>
+      <td>206</td>
+      <td>240</td>
+      <td>8.156741e-03</td>
+      <td>0.140386</td>
+      <td>0.052740</td>
+      <td>G</td>
+      <td>T</td>
+      <td>281965</td>
+      <td>chr17</td>
+    </tr>
+    <tr>
+      <th>997</th>
+      <td>DOC2B</td>
+      <td>chr17:282037_G_A</td>
+      <td>100387</td>
+      <td>0.010870</td>
+      <td>9</td>
+      <td>9</td>
+      <td>6.988573e-02</td>
+      <td>0.443654</td>
+      <td>0.243950</td>
+      <td>A</td>
+      <td>G</td>
+      <td>282037</td>
+      <td>chr17</td>
+    </tr>
+    <tr>
+      <th>998</th>
+      <td>DOC2B</td>
+      <td>chr17:282127_G_A</td>
+      <td>100477</td>
+      <td>0.160628</td>
+      <td>122</td>
+      <td>133</td>
+      <td>8.626497e-01</td>
+      <td>0.011448</td>
+      <td>0.066118</td>
+      <td>A</td>
+      <td>G</td>
+      <td>282127</td>
+      <td>chr17</td>
+    </tr>
+    <tr>
+      <th>999</th>
+      <td>DOC2B</td>
+      <td>chr17:282217_C_T</td>
+      <td>100567</td>
+      <td>0.083333</td>
+      <td>68</td>
+      <td>69</td>
+      <td>7.074454e-01</td>
+      <td>0.034193</td>
+      <td>0.091031</td>
+      <td>T</td>
+      <td>C</td>
+      <td>282217</td>
+      <td>chr17</td>
+    </tr>
+  </tbody>
+</table>
+<p>1000 rows × 13 columns</p>
+</div></div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ss_2_vcf</span><span class="p">(</span><span class="n">test</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ss_2_vcf</span><span class="p">(</span><span class="n">test</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>##fileformat=VCFv4.2
+##FILTER=&lt;ID=PASS,Description=&#34;All filters passed&#34;&gt;
+##fileDate=20220322
+##FORMAT=&lt;ID=ES,Number=A,Type=Float,Description=&#34;Effect size estimate relative to the alternative allele&#34;&gt;
+##FORMAT=&lt;ID=SE,Number=A,Type=Float,Description=&#34;Standard error of effect size estimate&#34;&gt;
+##FORMAT=&lt;ID=P,Number=A,Type=Float,Description=&#34;The Pvalue corresponding to ES&#34;&gt;
+##FORMAT=&lt;ID=TSS_D,Number=A,Type=Int,Description=&#34;Customized Field TSS_D
+##FORMAT=&lt;ID=AF,Number=A,Type=Float,Description=&#34;Customized Field AF
+##FORMAT=&lt;ID=MA_S,Number=A,Type=Int,Description=&#34;Customized Field MA_S
+##FORMAT=&lt;ID=MA_F,Number=A,Type=Int,Description=&#34;Customized Field MA_F
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>#CHROM</th>
+      <th>POS</th>
+      <th>ID</th>
+      <th>REF</th>
+      <th>ALT</th>
+      <th>QUAL</th>
+      <th>FILTER</th>
+      <th>INFO</th>
+      <th>FORMAT</th>
+      <th>name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>chr17</td>
+      <td>150509</td>
+      <td>chr17:150509_TA_T</td>
+      <td>TA</td>
+      <td>T</td>
+      <td>.</td>
+      <td>PASS</td>
+      <td>GENE = DOC2B</td>
+      <td>STAT:SE:P:TSS_D:AF:MA_S:MA_F</td>
+      <td>-0.35355327:0.05782158:2.7672995977620612e-09-...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>chr17</td>
+      <td>151035</td>
+      <td>chr17:151035_C_T</td>
+      <td>C</td>
+      <td>T</td>
+      <td>.</td>
+      <td>PASS</td>
+      <td>GENE = DOC2B</td>
+      <td>STAT:SE:P:TSS_D:AF:MA_S:MA_F</td>
+      <td>-0.3602523:0.05837245:2.005370139560338e-09-30...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>chr17</td>
+      <td>151041</td>
+      <td>chr17:151041_A_G</td>
+      <td>A</td>
+      <td>G</td>
+      <td>.</td>
+      <td>PASS</td>
+      <td>GENE = DOC2B</td>
+      <td>STAT:SE:P:TSS_D:AF:MA_S:MA_F</td>
+      <td>-0.17550638:0.06654477:0.0087543256724295-3060...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>chr17</td>
+      <td>151596</td>
+      <td>chr17:151596_G_A</td>
+      <td>G</td>
+      <td>A</td>
+      <td>.</td>
+      <td>PASS</td>
+      <td>GENE = DOC2B</td>
+      <td>STAT:SE:P:TSS_D:AF:MA_S:MA_F</td>
+      <td>-0.08847341:0.08073738:0.2739676780558129-3005...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>chr17</td>
+      <td>151872</td>
+      <td>chr17:151872_T_C</td>
+      <td>T</td>
+      <td>C</td>
+      <td>.</td>
+      <td>PASS</td>
+      <td>GENE = DOC2B</td>
+      <td>STAT:SE:P:TSS_D:AF:MA_S:MA_F</td>
+      <td>0.13202243:0.07822862:0.0924351300538036-29778...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>995</th>
+      <td>chr17</td>
+      <td>281918</td>
+      <td>chr17:281918_A_G</td>
+      <td>A</td>
+      <td>G</td>
+      <td>.</td>
+      <td>PASS</td>
+      <td>GENE = DOC2B</td>
+      <td>STAT:SE:P:TSS_D:AF:MA_S:MA_F</td>
+      <td>0.107802205:0.051887173:0.03852610270631691002...</td>
+    </tr>
+    <tr>
+      <th>996</th>
+      <td>chr17</td>
+      <td>281965</td>
+      <td>chr17:281965_T_G</td>
+      <td>T</td>
+      <td>G</td>
+      <td>.</td>
+      <td>PASS</td>
+      <td>GENE = DOC2B</td>
+      <td>STAT:SE:P:TSS_D:AF:MA_S:MA_F</td>
+      <td>0.14038579:0.052740265:0.008156741448439610031...</td>
+    </tr>
+    <tr>
+      <th>997</th>
+      <td>chr17</td>
+      <td>282037</td>
+      <td>chr17:282037_G_A</td>
+      <td>G</td>
+      <td>A</td>
+      <td>.</td>
+      <td>PASS</td>
+      <td>GENE = DOC2B</td>
+      <td>STAT:SE:P:TSS_D:AF:MA_S:MA_F</td>
+      <td>0.4436538:0.24394979:0.0698857298190166100387:...</td>
+    </tr>
+    <tr>
+      <th>998</th>
+      <td>chr17</td>
+      <td>282127</td>
+      <td>chr17:282127_G_A</td>
+      <td>G</td>
+      <td>A</td>
+      <td>.</td>
+      <td>PASS</td>
+      <td>GENE = DOC2B</td>
+      <td>STAT:SE:P:TSS_D:AF:MA_S:MA_F</td>
+      <td>0.011447639:0.066118255:0.86264972708922861004...</td>
+    </tr>
+    <tr>
+      <th>999</th>
+      <td>chr17</td>
+      <td>282217</td>
+      <td>chr17:282217_C_T</td>
+      <td>C</td>
+      <td>T</td>
+      <td>.</td>
+      <td>PASS</td>
+      <td>GENE = DOC2B</td>
+      <td>STAT:SE:P:TSS_D:AF:MA_S:MA_F</td>
+      <td>0.034192912:0.091031134:0.70744535873019510056...</td>
+    </tr>
+  </tbody>
+</table>
+<p>1000 rows × 10 columns</p>
+</div></div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 </div>
  
 

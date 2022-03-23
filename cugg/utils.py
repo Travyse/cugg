@@ -238,16 +238,14 @@ def snps_match(query,subject,keep_ambiguous=True):
     print("Total rows of query: ",query.shape[0],"Total rows of subject: ",subject.shape[0])
     if len(query.index[0].split('_')[0].split(':'))>2:
         #gene:chr:pos case
-        genes_query = query.index.to_series().apply(lambda x: x.split('_')[0])
-        genes_subject = subject.index.to_series().apply(lambda x: x.split('_')[0])
+        genes_query = query.index.to_series().apply(lambda x: x.split(':')[0])
+        genes_subject = subject.index.to_series().apply(lambda x: x.split(':')[0])
         query = dict(tuple(query.groupby(genes_query)))
         subject = dict(tuple(subject.groupby(genes_subject)))
         new_query, new_subject = [],[]
         for g in genes_query.unique():
-            q = query.get(g)
-            s = subject.get(g)
-            if q is not None and s is not None:
-                new_q, new_s=snps_match_dup(q,s,keep_ambiguous)
+            if g in query_test.keys() and g in subject.keys():
+                new_q,new_s = snps_match_dup(query_test[g],subject[g],keep_ambiguous)
                 new_query.append(new_q)
                 new_subject.append(new_s)
         new_query, new_subject=pd.concat(new_query),pd.concat(new_query)
@@ -264,7 +262,7 @@ def snps_match_dup(query,subject,keep_ambiguous=True):
     new_subject = subject.loc[pm.sidx]
     #update beta and snp info
     new_query = pd.concat([new_subject.iloc[:,:5],query.loc[pm.qidx].iloc[:,5:]],axis=1)
-    new_query.STAT[list(pm.flip)] = -new_query.STAT[list(pm.flip)]
+    new_query.loc[list(pm.flip) , "STAT"] = -new_query.STAT[list(pm.flip)]
     return new_query, new_subject
 
 def snps_match_nodup(query,subject,keep_ambiguous=True):
@@ -288,5 +286,5 @@ def snps_match_nodup(query,subject,keep_ambiguous=True):
     new_subject = subject.loc[keep_idx]
     #update beta and snp info
     new_query = pd.concat([new_subject.iloc[:,:5],query.loc[keep_idx].iloc[:,5:]],axis=1)
-    new_query.STAT[pm.sign_flip] = -new_query.STAT[pm.sign_flip]
+    new_query.loc[list(pm.flip) , "STAT"] = -new_query.STAT[list(pm.flip)]
     return new_query,new_subject

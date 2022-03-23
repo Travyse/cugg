@@ -2,13 +2,11 @@
 
 
 
-## 4 modules
-
+### 4 modules
 - Genodata
 - Sumstats
 - Liftover
-- LDmatrix: Scalable pipeline for computing LD matrix in big sample phenotype
-
+- LDmatrix
 
 ## Install
 
@@ -16,26 +14,26 @@
 
 ## How to use
 
-```python
+```
 lf = Liftover('hg38','hg19')
 ```
 
-```python
+```
 vcf ='/home/yh3455/Github/SEQLinkage/MWE/small_sample_ii_coding.vcf.gz'
 ```
 
-```python
+```
 lf.vcf_liftover(vcf)
 ```
 
-```python
+```
 !which python
 ```
 
     /home/yh3455/miniconda3/bin/python
 
 
-```python
+```
 region = [5,272741,1213528-900000]
 geno_path = 'MWE_region_extraction/ukb23156_c5.merged.filtered.5_272741_1213528.bed'
 sumstats_path = 'MWE_region_extraction/090321_UKBB_Hearing_aid_f3393_expandedwhite_6436cases_96601ctrl_PC1_2_f3393.regenie.snp_stats'
@@ -51,7 +49,7 @@ output_LD = 'test_corr.csv.gz'
 #main(region,geno_path,sumstats_path,pheno_path,unr_path,imp_geno_path,imp_sumstats_path,imp_ref,output_sumstats,output_LD)
 ```
 
-```python
+```
     def main(region,geno_path,sumstats_path,pheno_path,unr_path,imp_geno_path,imp_sumstats_path,imp_ref,output_sumstats,output_LD,bgen_sample_path):
 
         print('1. Preprocess sumstats (regenie format) and extract it from a region')
@@ -147,7 +145,7 @@ output_LD = 'test_corr.csv.gz'
 
 ```
 
-```python
+```
 main(region,geno_path,sumstats_path,pheno_path,unr_path,imp_geno_path,imp_sumstats_path,imp_ref,output_sumstats,output_LD,bgen_sample_path)
 ```
 
