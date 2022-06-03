@@ -68,43 +68,53 @@ def read_sumstat(file, config,rename=True):
             raise ValueError(f'According to config_file, input summary statistics should have the following columns: %s' % list(config.values()))
         sumstats.columns = list(config.keys())
     if rename:
-        sumstats.SNP = 'chr'+sumstats.CHR.astype(str) + ':' + sumstats.POS.astype(str) + '_' + sumstats.A0.astype(str) + '_' + sumstats.A1.astype(str)
+        sumstats.SNP = 'chr'+sumstats.CHR.astype(str).str.strip("chr") + ':' + sumstats.POS.astype(str) + '_' + sumstats.A0.astype(str) + '_' + sumstats.A1.astype(str)
     sumstats.CHR = sumstats.CHR.astype(str).str.strip("chr").astype(int)
     sumstats.POS = sumstats.POS.astype(int)
+    if "GENE" in sumstats.columns.values():
+        sumstats.index = namebyordA0_A1(sumstats[["GENE","CHR","POS","A0","A1"]],cols=["GENE","CHR","POS","A0","A1"])
+    else:
+        sumstats.index = namebyordA0_A1(sumstats[["CHR","POS","A0","A1"]],cols=["CHR","POS","A0","A1"])
     return sumstats
 
 # Cell
 def ss_2_vcf(ss_df,name = "name"):
     ## Geno field
     df = pd.DataFrame()
+    if "SNP" not in ss_df.columns:
+        ss_df['SNP'] = 'chr'+ss_df.CHR.astype(str).str.strip("chr") + ':' + ss_df.POS.astype(str) + '_' + ss_df.A0.astype(str) + '_' + ss_df.A1.astype(str)
     df[['#CHROM', 'POS', 'ID', 'REF', 'ALT']] = ss_df[['CHR', 'POS', 'SNP', 'A0', 'A1']].sort_values(['CHR', 'POS'])
     ## Info field(Empty)
     df['QUAL'] = "."
     df['FILTER'] = "PASS"
     df['INFO'] = "."
     fix_header = ["SNP","A1","A0","POS","CHR","STAT","SE","P"]
+    header_list = []
     if "GENE" in ss_df.columns:
-        df['INFO'] = "GENE = " + ss_df["GENE"]
+        df['ID'] = ss_df['GENE'] + ":" + ss_df['SNP']
+        df['INFO'] = "GENE=" + ss_df["GENE"]
         fix_header = ["GENE","SNP","A1","A0","POS","CHR","STAT","SE","P"]
+        header_list = ['##INFO=<ID=GENE,Number=1,Type=String,Description="The name of genes">']
     ### Fix headers
     import time
     header = '##fileformat=VCFv4.2\n' + \
     '##FILTER=<ID=PASS,Description="All filters passed">\n' + \
     f'##fileDate={time.strftime("%Y%m%d",time.localtime())}\n'+ \
-    '##FORMAT=<ID=ES,Number=A,Type=Float,Description="Effect size estimate relative to the alternative allele">\n' + \
-    '##FORMAT=<ID=SE,Number=A,Type=Float,Description="Standard error of effect size estimate">\n' + \
-    '##FORMAT=<ID=P,Number=A,Type=Float,Description="The Pvalue corresponding to ES">\n'
+    '##FORMAT=<ID=STAT,Number=1,Type=Float,Description="Effect size estimate relative to the alternative allele">\n' + \
+    '##FORMAT=<ID=SE,Number=1,Type=Float,Description="Standard error of effect size estimate">\n' + \
+    '##FORMAT=<ID=P,Number=1,Type=Float,Description="The Pvalue corresponding to ES">\n'
     ### Customized Field headers
-    header_list = []
-    for x in test:
+    for x in ss_df.columns:
         if x not in fix_header:
-            Prefix = f'##FORMAT=<ID={x},Number=A,Type='
-            Type = str(type(test[x][0])).replace("<class \'","").replace("'>","").replace("numpy.","").replace("64","").capitalize()
-            Surfix = f',Description="Customized Field {x}'
+            Prefix = f'##FORMAT=<ID={x},Number=1,Type='
+            Type = str(type(ss_df[x][0])).replace("<class \'","").replace("'>","").replace("numpy.","").replace("64","").capitalize().replace("Int","Integer")
+            Surfix = f',Description="Customized Field {x}">'
             header_list.append(Prefix+Type+Surfix)
     ## format and sample field
     df['FORMAT'] = ":".join(["STAT","SE","P"] + ss_df.drop(fix_header,axis = 1).columns.values.tolist())
-    df[f'{name}'] = ss_df['STAT'].astype(str) + ":" + ss_df['SE'].astype(str) + ":" + ss_df['P'].astype(str) + ss_df.drop(fix_header,axis = 1).astype(str).apply(":".join,axis = 1)
+    df[f'{name}'] = ss_df['STAT'].astype(str) + ":" + ss_df['SE'].astype(str) + ":" + ss_df['P'].astype(str) + ":" + ss_df.drop(fix_header,axis = 1).astype(str).apply(":".join,axis = 1)
     ## Rearrangment
     df = df[['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO','FORMAT',f'{name}']]
+    # Add headers
+    header = header + "\n".join(header_list) + "\n"
     return df,header

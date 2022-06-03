@@ -244,8 +244,8 @@ def snps_match(query,subject,keep_ambiguous=True):
         subject = dict(tuple(subject.groupby(genes_subject)))
         new_query, new_subject = [],[]
         for g in genes_query.unique():
-            if g in query_test.keys() and g in subject.keys():
-                new_q,new_s = snps_match_dup(query_test[g],subject[g],keep_ambiguous)
+            if g in query.keys() and g in subject.keys():
+                new_q,new_s = snps_match_dup(query[g],subject[g],keep_ambiguous)
                 new_query.append(new_q)
                 new_subject.append(new_s)
         new_query, new_subject=pd.concat(new_query),pd.concat(new_query)

@@ -1,7 +1,6 @@
 # In-house Python utilities from Gao Wang's group
 
 
-
 ### 4 modules
 - Genodata
 - Sumstats
@@ -15,16 +14,28 @@
 ## How to use
 
 ```
-lf = Liftover('hg38','hg19')
+import cugg
+import liftover from cugg
+
+lf = liftover.Liftover('hg38','hg19')
 ```
+For VCF:
 
 ```
 vcf ='/home/yh3455/Github/SEQLinkage/MWE/small_sample_ii_coding.vcf.gz'
-```
-
-```
 lf.vcf_liftover(vcf)
 ```
+
+
+For sumstat (Assuming only five columns)
+
+```
+ss = pd.read_csv("/mnt/vast/hpc/csg/neuro-twas/GWAS_coord","\t")
+ss.columns = ["SNP","CHR","POS","A0","A1"]
+ss_new = lf.sumstat_liftover(ss)
+```
+
+
 
 ```
 !which python
