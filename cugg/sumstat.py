@@ -71,7 +71,7 @@ def read_sumstat(file, config,rename=True):
         sumstats.SNP = 'chr'+sumstats.CHR.astype(str).str.strip("chr") + ':' + sumstats.POS.astype(str) + '_' + sumstats.A0.astype(str) + '_' + sumstats.A1.astype(str)
     sumstats.CHR = sumstats.CHR.astype(str).str.strip("chr").astype(int)
     sumstats.POS = sumstats.POS.astype(int)
-    if "GENE" in sumstats.columns.values():
+    if "GENE" in sumstats.columns.values:
         sumstats.index = namebyordA0_A1(sumstats[["GENE","CHR","POS","A0","A1"]],cols=["GENE","CHR","POS","A0","A1"])
     else:
         sumstats.index = namebyordA0_A1(sumstats[["CHR","POS","A0","A1"]],cols=["CHR","POS","A0","A1"])
